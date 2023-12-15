@@ -22,8 +22,8 @@ export const GaleryImages:FC = () => {
   return (
     <div className='GaleryImages-container'>
       {images && images.map((image: any)=>(
-        <div key={image?.uuid}>
-          <img className='img-image' src={`${image.imageUrl}`} alt="" />
+        <div key={image?.uuid} className='marco'>
+          <img  key={image?.uuid} className='img-image' src={`${image.imageUrl}`} alt="" />
         </div>
       ))}
     </div>

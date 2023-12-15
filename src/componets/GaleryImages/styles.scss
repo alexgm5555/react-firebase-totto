@@ -4,6 +4,7 @@
   flex-direction: row;
   justify-content: space-around;
   flex-wrap: wrap;
+  align-items: center;
   
   
   .label-error {
@@ -11,16 +12,32 @@
     padding-top: 3em;
     color: red;
   }
-  .img-image {
-    cursor: pointer;
-    width: 150px;
-    padding: 10px;
-  }
-
-  .img-image:hover {
+  .marco {
+    display: flex;
+    align-items: center;
+    max-width: 300px;
+    height: 400px;
     box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+  }
+  .img-image {
+    width: calc(100% );
+    padding: 10px;
   }
   p {
     color: black;
+  }
+
+  @media only screen and (max-width: 768px) {
+    flex-direction: column !important;
+    .img-image {
+      width: calc(100% - 50px);
+    }
+    .marco {
+      align-items: center;
+      max-width: 100% !important;
+      height: auto !important;
+      justify-content: center;
+      box-shadow: none
+    }
   }
 }
