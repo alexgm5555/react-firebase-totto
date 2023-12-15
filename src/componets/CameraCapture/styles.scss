@@ -1,4 +1,6 @@
 .CameraCapture-container {
+  display: flex;
+  flex-direction: column;
   .button-div {
     display: flex;
     flex-direction: row;

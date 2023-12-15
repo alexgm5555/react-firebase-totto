@@ -22,13 +22,39 @@ export const CameraCapture:FC = () => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [showCamera, setShowCamera] = useState<boolean>(false);
   const [stream, setStream] = useState<MediaStream | null>(null);
+  const [dispositivos, setDispositivos] = useState<MediaDeviceInfo[]>([]);
+  const [dispositivoSeleccionado, setDispositivoSeleccionado] = useState<string | null>(null);
+
 
   const dataUser = useSelector((state: any) => state.user);
   const dispatch =  useDispatch();
 
+  const cargarDispositivos = async () => {
+    try {
+      // Enumera los dispositivos de entrada de medios
+      const dispositivos = await navigator.mediaDevices.enumerateDevices();
+      const camaras = dispositivos.filter((dispositivo) => dispositivo.kind === 'videoinput');
+      setDispositivos(camaras);
+      setDispositivoSeleccionado(camaras[0]?.deviceId || null);
+    } catch (error) {
+      console.error('Error al enumerar dispositivos:', error);
+    }
+  };
+
   const startCamera = async () => {
     try {
-      const newStream = await navigator.mediaDevices.getUserMedia({ video: true });
+      if (!dispositivoSeleccionado) {
+        console.error('No se ha seleccionado ningún dispositivo de cámara.');
+        return;
+      }
+
+      // Obtén permisos para acceder a la cámara seleccionada
+      const newStream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          deviceId: dispositivoSeleccionado,
+        },
+      });
+      // const newStream = await navigator.mediaDevices.getUserMedia({ video: true });
       setStream(newStream);
       setShowCamera(true);
       if (videoRef.current) {
@@ -97,12 +123,25 @@ export const CameraCapture:FC = () => {
   };
   
   useEffect(() => {
+    cargarDispositivos();
     startCamera();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className='CameraCapture-container'>
+      <label htmlFor="seleccionarCamara">Seleccionar Cámara: </label>
+      <select
+        id="seleccionarCamara"
+        onChange={(e) => setDispositivoSeleccionado(e.target.value)}
+        value={dispositivoSeleccionado || ''}
+      >
+        {dispositivos.map((dispositivo) => (
+          <option key={dispositivo.deviceId} value={dispositivo.deviceId}>
+            {dispositivo.label || `Cámara ${dispositivo.deviceId}`}
+          </option>
+        ))}
+      </select>
       <video className={`camera-${showCamera}`} ref={videoRef} autoPlay muted playsInline />
       {imageSrc && !showCamera && 
         <div className='img-div'>
