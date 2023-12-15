@@ -1,0 +1,11 @@
+.Layout01-container {
+  height: 100%;
+  .children-container{
+    min-height: calc(100% - 100px);
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex-direction: column;
+  }
+}
