@@ -1,7 +1,13 @@
 import React, { FC, useRef, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { collection, addDoc } from 'firebase/firestore';
-import { getStorage, ref, uploadString, getDownloadURL, uploadBytes } from 'firebase/storage';
+import {
+  getStorage,
+  ref,
+  // uploadString,
+  getDownloadURL,
+  uploadBytes
+} from 'firebase/storage';
 
 import './styles.scss';
 
@@ -63,7 +69,7 @@ export const CameraCapture:FC = () => {
       const storage = getStorage();
       const name = new Date().toLocaleDateString("es-MX", {day: "numeric", month: "short",year: "numeric", timeZone: "America/Bogota"}).replaceAll(' ','');
       const storageRef = ref(storage, `images/${name}.jpg`);
-      const imageString = imageSrc.split(',')[1];
+      // const imageString = imageSrc.split(',')[1];
       await uploadBytes (storageRef, imageSrc);
       // await uploadString(storageRef, imageString, 'base64');
 
@@ -74,7 +80,7 @@ export const CameraCapture:FC = () => {
         name: `images/${name}.jpg`,
         imageUrl
       });
-      console.log('Imagen subida y URL guardada en Firestore:', imageUrl, docRef.id);
+      console.log('Imagen subida y URL guardada en Firestores:', imageUrl, docRef.id);
     } catch (error) {
        console.error('Error al subir la imagen:', error);
     }
