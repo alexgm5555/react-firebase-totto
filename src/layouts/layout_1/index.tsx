@@ -15,6 +15,7 @@ import { addUser } from '../../redux/userSlice';
 
 interface props {
   children: ReactNode
+  centralChildren?: ReactNode
   login: boolean,
   logout: boolean,
   pageRef?: string
@@ -22,6 +23,7 @@ interface props {
 
 export const Layout01:FC<props> = ({
   children,
+  centralChildren,
   login,
   logout,
   pageRef
@@ -55,6 +57,15 @@ export const Layout01:FC<props> = ({
       <Navbar expand="lg" className="bg-body-tertiary">
       <Container fluid>
         <Navbar.Brand href="#">Galeria Totto</Navbar.Brand>
+        <Nav 
+          className='justify-content-center'
+          style={{ 
+            left: "calc(50% - 70px)",
+            position: "absolute" 
+          }}  
+        >
+          {centralChildren}
+        </Nav>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -62,7 +73,7 @@ export const Layout01:FC<props> = ({
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <Nav.Link href="#action1">Home</Nav.Link>
+            {/* <Nav.Link href="#action1">Home</Nav.Link> */}
           </Nav>
           <Form className="d-flex">
             { showName  && <>

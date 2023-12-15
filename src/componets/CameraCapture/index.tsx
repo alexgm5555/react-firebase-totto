@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { collection, addDoc } from 'firebase/firestore';
 import {
@@ -13,8 +13,9 @@ import './styles.scss';
 
 import './styles.scss';
 import { db } from '../../services';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ImagesInterface } from '../../interfaces';
+import { setUpdate } from '../../redux/imagesSlice';
 
 export const CameraCapture:FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -23,6 +24,7 @@ export const CameraCapture:FC = () => {
   const [stream, setStream] = useState<MediaStream | null>(null);
 
   const dataUser = useSelector((state: any) => state.user);
+  const dispatch =  useDispatch();
 
   const startCamera = async () => {
     try {
@@ -87,11 +89,17 @@ export const CameraCapture:FC = () => {
       const docRef = await addDoc( collection(db, "images"), dataToSend );
       setImageSrc(imageUrl);
       stopCamera();
+      dispatch(setUpdate());
       console.log('Imagen subida y URL guardada en Firestores:', imageUrl, docRef.id);
     } catch (error) {
        console.error('Error al subir la imagen:', error);
     }
   };
+  
+  useEffect(() => {
+    startCamera();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className='CameraCapture-container'>

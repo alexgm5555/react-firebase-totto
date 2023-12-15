@@ -4,10 +4,12 @@ import './styles.scss';
 
 import { getImages } from '../../services';
 import { ImagesInterface } from '../../interfaces';
+import { useSelector } from 'react-redux';
 
 
 export const GaleryImages:FC = () => {
   const [images, setImages] = useState<[ImagesInterface] | any>();
+  const dataImages = useSelector((state: any) => state.images);
   
   const _getImages = async()=>{
     const images = await getImages();
@@ -15,9 +17,11 @@ export const GaleryImages:FC = () => {
   }
 
   useEffect(() => {
-    _getImages()
+    _getImages();
+    console.log(dataImages);
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dataImages.update]);
 
   return (
     <div className='GaleryImages-container'>

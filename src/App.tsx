@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 
 import './App.css';
-import { LoginPage, GaleryPage } from './pages';
+import { LoginPage, GaleryPage, CapturePage } from './pages';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -17,6 +17,10 @@ const router = createBrowserRouter([
   {
     path: "/galery",
     element: <GaleryPage />,
+  },
+  {
+    path: "/capture",
+    element: <CapturePage />,
   }
 ]);
 const App:FC =()=>{

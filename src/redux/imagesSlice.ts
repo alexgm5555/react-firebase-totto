@@ -1,29 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ImagesInterface } from '../interfaces';
 
-const initialState: [ImagesInterface] = [{
+const initialState: any = {
   imageUrl: '',
   name: '',
   user_uuid: '',
-  uuid: ''
-}]
+  uuid: '',
+  update: false
+}
 
 export const imagesSlice = createSlice({
-  name: "user",
+  name: "images",
   initialState,
   reducers: {
-    // addImages: (state, action) => {
-    //   const { imgUrl, name, user_uuid, uuid } = action.payload
-    //   state.imgUrl = imgUrl;
-    //   state.name = name;
-    //   state.user_uuid = user_uuid;
-    //   state.uuid = uuid;
-    // },
+    setUpdate: (state) => {
+      state.update = !state.update;
+    },
     setImages: (state, action) => {
+      console.log(action.payload);
+      
       state = action.payload;
     },
   }
 });
 
-export const { setImages } = imagesSlice.actions;
+export const { setImages, setUpdate } = imagesSlice.actions;
 export default imagesSlice.reducer;
