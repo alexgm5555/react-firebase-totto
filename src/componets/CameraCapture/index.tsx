@@ -4,9 +4,9 @@ import { collection, addDoc } from 'firebase/firestore';
 import {
   getStorage,
   ref,
-  // uploadString,
+  uploadString,
   getDownloadURL,
-  uploadBytes
+  // uploadBytes,
 } from 'firebase/storage';
 
 import './styles.scss';
@@ -55,7 +55,7 @@ export const CameraCapture:FC = () => {
       const context = canvas.getContext('2d');
       if (context) {
         context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-        const imageSrc = canvas.toDataURL('imagen/jpg');
+        const imageSrc = canvas.toDataURL('image/jpg');
         setImageSrc(imageSrc);
         await createImgInBD(imageSrc);
         
@@ -69,9 +69,9 @@ export const CameraCapture:FC = () => {
       const storage = getStorage();
       const name = new Date().toLocaleDateString("es-MX", {day: "numeric", month: "short",year: "numeric", timeZone: "America/Bogota"}).replaceAll(' ','');
       const storageRef = ref(storage, `images/${name}.jpg`);
-      // const imageString = imageSrc.split(',')[1];
-      await uploadBytes (storageRef, imageSrc);
-      // await uploadString(storageRef, imageString, 'base64');
+      const imageString = imageSrc.split(',')[1];
+      // await uploadBytes (storageRef, imageSrc);
+      await uploadString(storageRef, imageString, 'base64');
 
       const imageUrl = await getDownloadURL(storageRef);
 
@@ -99,6 +99,12 @@ export const CameraCapture:FC = () => {
           </>
         }
       </div>
+      {imageSrc && 
+        <div>
+          <br />
+          <img src={imageSrc} alt="Capturada" />
+        </div>
+      }
     </div>
   );
 };
