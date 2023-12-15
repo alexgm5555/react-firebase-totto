@@ -15,14 +15,14 @@
   .img-div {
     display: flex;
     justify-content: center;
+    padding: 30px;
     img {
-      width: 440px;
-      height: 330px;
+      width: calc(100% - 150px);
+      height: calc(100% - 150px);
     }
   }
   @media only screen and (max-width: 768px) {
     img {
-      padding: 30px;
       width: calc(100% - 30px) !important;
       height: calc(100% - 30px) !important;
     }

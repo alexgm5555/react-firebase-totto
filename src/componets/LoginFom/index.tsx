@@ -8,7 +8,7 @@ import {
   GoogleAuthProvider,
   FacebookAuthProvider,
   registrarUsuario
-} from '../../services/firebase/config';
+} from '../../services'
 import { addUser } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
 

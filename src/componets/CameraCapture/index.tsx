@@ -7,12 +7,14 @@ import {
   uploadString,
   getDownloadURL,
 } from 'firebase/storage';
+import {v4 as uuid} from 'uuid';
 
 import './styles.scss';
 
 import './styles.scss';
-import { db } from '../../services/firebase/config';
+import { db } from '../../services';
 import { useSelector } from 'react-redux';
+import { ImagesInterface } from '../../interfaces';
 
 export const CameraCapture:FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -76,12 +78,13 @@ export const CameraCapture:FC = () => {
       await uploadString(storageRef, imageString, 'base64');
 
       const imageUrl = await getDownloadURL(storageRef);
-
-      const docRef = await addDoc( collection(db, "images"),{
-        uuid: dataUser.uuid,
+      const dataToSend: ImagesInterface = {
+        user_uuid: dataUser.uuid,
         name: `images/${name}.jpg`,
-        imageUrl
-      });
+        imageUrl,
+        uuid: uuid()
+      }
+      const docRef = await addDoc( collection(db, "images"), dataToSend );
       setImageSrc(imageUrl);
       stopCamera();
       console.log('Imagen subida y URL guardada en Firestores:', imageUrl, docRef.id);
