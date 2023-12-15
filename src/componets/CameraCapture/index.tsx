@@ -67,7 +67,15 @@ export const CameraCapture:FC = () => {
     try {
 
       const storage = getStorage();
-      const name = new Date().toLocaleDateString("es-MX", {day: "numeric", month: "short",year: "numeric", timeZone: "America/Bogota"}).replaceAll(' ','');
+      const name = new Date().toLocaleDateString("es-MX", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        timeZone: "America/Bogota"
+      }).replaceAll(' ','-').replaceAll(',','-').replaceAll(':','')
       const storageRef = ref(storage, `images/${name}.jpg`);
       const imageString = imageSrc.split(',')[1];
       // await uploadBytes (storageRef, imageSrc);
