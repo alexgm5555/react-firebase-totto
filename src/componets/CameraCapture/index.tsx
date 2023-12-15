@@ -6,11 +6,9 @@ import {
   ref,
   uploadString,
   getDownloadURL,
-  // uploadBytes,
 } from 'firebase/storage';
 
 import './styles.scss';
-
 
 import './styles.scss';
 import { db } from '../../services/firebase/config';
@@ -43,7 +41,6 @@ export const CameraCapture:FC = () => {
       tracks.forEach((track) => track.stop());
       setStream(null);
       setShowCamera(false);
-      // setImageSrc(null);
     }
   };
 
@@ -56,9 +53,7 @@ export const CameraCapture:FC = () => {
       if (context) {
         context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
         const imageSrc = canvas.toDataURL('image/jpg');
-        setImageSrc(imageSrc);
         await createImgInBD(imageSrc);
-        
       }
     }
   };
@@ -78,7 +73,6 @@ export const CameraCapture:FC = () => {
       }).replaceAll(' ','-').replaceAll(',','-').replaceAll(':','')
       const storageRef = ref(storage, `images/${name}.jpg`);
       const imageString = imageSrc.split(',')[1];
-      // await uploadBytes (storageRef, imageSrc);
       await uploadString(storageRef, imageString, 'base64');
 
       const imageUrl = await getDownloadURL(storageRef);
@@ -88,6 +82,8 @@ export const CameraCapture:FC = () => {
         name: `images/${name}.jpg`,
         imageUrl
       });
+      setImageSrc(imageUrl);
+      stopCamera();
       console.log('Imagen subida y URL guardada en Firestores:', imageUrl, docRef.id);
     } catch (error) {
        console.error('Error al subir la imagen:', error);
@@ -96,8 +92,12 @@ export const CameraCapture:FC = () => {
 
   return (
     <div className='CameraCapture-container'>
-      <video ref={videoRef} autoPlay muted playsInline />
-      {imageSrc && !showCamera && <img src={imageSrc} alt="Capturada" />}
+      <video className={`camera-${showCamera}`} ref={videoRef} autoPlay muted playsInline />
+      {imageSrc && !showCamera && 
+        <div className='img-div'>
+          <br />
+          <img src={imageSrc} alt="Capturada" />
+        </div>}
       <div className='button-div'>
         {!showCamera ? 
           <Button variant="outline-success" onClick={startCamera}>Iniciar Cámara</Button> :
@@ -107,13 +107,6 @@ export const CameraCapture:FC = () => {
           </>
         }
       </div>
-      {imageSrc && 
-        <div>
-          <br />
-          <img src={imageSrc} alt="Capturada" />
-        </div>
-      }
     </div>
   );
 };
-

@@ -4,4 +4,21 @@
     flex-direction: row;
     justify-content: space-evenly;
   }
+  .camera-true {
+    width: 640px;
+    height: 480px;
+  }
+  .camera-false {
+    width: 1px;
+    height: 1px;
+  }
+  .img-div {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    img {
+      width: 440px;
+      height: 330px;
+    }
+  }
 }
