@@ -61,7 +61,8 @@ export const CameraCapture:FC = () => {
     try {
 
       const storage = getStorage();
-      const storageRef = ref(storage, `images/${new Date().toLocaleDateString("es-MX", {timeZone: "America/Bogota"})}.png`);
+      const name = new Date().toLocaleDateString("es-MX", {day: "numeric", month: "short",year: "numeric", timeZone: "America/Bogota"}).replaceAll(' ','');
+      const storageRef = ref(storage, `images/${name}.jpg`);
       const imageString = imageSrc.split(',')[1];
       await uploadBytes (storageRef, imageSrc);
       // await uploadString(storageRef, imageString, 'base64');
@@ -70,7 +71,7 @@ export const CameraCapture:FC = () => {
 
       const docRef = await addDoc( collection(db, "images"),{
         uuid: dataUser.uuid,
-        name: `images/${Date.now()}.png`,
+        name: `images/${name}.jpg`,
         imageUrl
       });
       console.log('Imagen subida y URL guardada en Firestore:', imageUrl, docRef.id);
