@@ -49,7 +49,7 @@ export const CameraCapture:FC = () => {
       const context = canvas.getContext('2d');
       if (context) {
         context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-        const imageSrc = canvas.toDataURL('image/png');
+        const imageSrc = canvas.toDataURL('imagen/jpg');
         setImageSrc(imageSrc);
         await createImgInBD(imageSrc);
         
