@@ -1,7 +1,7 @@
 import React, { FC, useRef, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { collection, addDoc } from 'firebase/firestore';
-import { getStorage, ref, uploadString, getDownloadURL } from 'firebase/storage';
+import { getStorage, ref, uploadString, getDownloadURL, uploadBytes } from 'firebase/storage';
 
 import './styles.scss';
 
@@ -61,9 +61,10 @@ export const CameraCapture:FC = () => {
     try {
 
       const storage = getStorage();
-      const storageRef = ref(storage, `images/${Date.now()}.png`);
+      const storageRef = ref(storage, `images/${new Date().toLocaleDateString("es-MX", {timeZone: "America/Bogota"})}.png`);
       const imageString = imageSrc.split(',')[1];
-      await uploadString(storageRef, imageString, 'base64');
+      await uploadBytes (storageRef, imageSrc);
+      // await uploadString(storageRef, imageString, 'base64');
 
       const imageUrl = await getDownloadURL(storageRef);
 
