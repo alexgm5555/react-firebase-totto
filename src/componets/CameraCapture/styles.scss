@@ -13,12 +13,17 @@
     height: 1px;
   }
   .img-div {
-    margin-top: 30px;
     display: flex;
     justify-content: center;
     img {
       width: 440px;
       height: 330px;
+    }
+  }
+  @media only screen and (max-width: 768) {
+    img {
+      width: auto;
+      height: auto;
     }
   }
 }
