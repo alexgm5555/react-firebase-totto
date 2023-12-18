@@ -83,10 +83,10 @@ export const Layout01:FC<props> = ({
           >
             {/* <Nav.Link href="#action1">Home</Nav.Link> */}
           </Nav>
-          <Form className="d-flex">
+          <Form className="d-flex form">
             { showName  && <>
               <>
-                <Navbar.Brand href="#">Bienvenido, {dataUser.name}!</Navbar.Brand>
+                <Navbar.Brand className="name" href="#">Bienvenido, {dataUser.name}!</Navbar.Brand>
                 <Button variant="outline-success" onClick={handleLogout} href="/">Cerrar Sesión</Button>
               </>
             </>}
