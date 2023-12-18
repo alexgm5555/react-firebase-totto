@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# PRUEBA TÉCNICA PARA EL ROL DE DESARROLLADOR FRONTEND  EMPRESA TOTTO
 https://prueb-tecnica-alexander-guiza.netlify.app
 
 Proyecto construido con:
