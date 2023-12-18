@@ -1,8 +1,29 @@
-# Proyecto creado con React typescript 
+# Getting Started with Create React App
+https://prueb-tecnica-alexander-guiza.netlify.app
 
-La estructura del proyecto se compone de la siguiente manera
+Proyecto construido con:
+React
+typescript
+sass
+firebase (escogí esta herramienta dado que cuenta con mas aceptación dentro de la comunidad )
+arquitectura spa
+Netlify (Se hizo el despliegue en esta herramienta por que ya la habia utilizado en otras app y me ha parecido facil de manejar y en su version libre la mas rápida.)
 
-## Estructura del Proyecto
+
+Instrucciones para instalación en un ambiente local
+1. Clonar proyecto
+2. Instalar Dependencias
+```npm install```
+
+5. Inicializar: 
+```npm start```
+
+https://prueb-tecnica-alexander-guiza.netlify.app
+
+La anterior es la url donde esta disponible el proyecto, No es necesario tener una sesion por lo que poniendo una contraseña de mas de 6 digitos es posible ingresas tambien esta la opcion de ingresar con google o facebook.
+
+
+
 
 
 ```plaintext
@@ -70,4 +91,5 @@ La estructura del proyecto se compone de la siguiente manera
 |-- public/
 |   |-- index.html
 |
-|-- ...
+
+## Instalación del Proyecto
