@@ -1,7 +1,7 @@
 # PRUEBA TÉCNICA PARA EL ROL DE DESARROLLADOR FRONTEND  EMPRESA TOTTO
 https://prueb-tecnica-alexander-guiza.netlify.app
 
-- Proyecto construido con:
+## Proyecto construido con:
 - React
 - Typescript
 - sass
