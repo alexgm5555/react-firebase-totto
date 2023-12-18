@@ -8,7 +8,6 @@ import './App.css';
 import { LoginPage, GaleryPage, CapturePage } from './pages';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 const router = createBrowserRouter([
   {
     path: "/",

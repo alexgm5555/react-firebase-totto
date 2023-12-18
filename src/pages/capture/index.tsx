@@ -15,7 +15,7 @@ export const CapturePage:FC = () => {
 
   return (
     <div className='GaleryPage-container'>
-      <Layout01 login={true} logout={true} centralChildren={buttonGalery}>
+      <Layout01 veryfyLogin={true} centralChildren={buttonGalery}>
         <CameraCapture />
       </Layout01>
     </div>

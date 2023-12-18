@@ -14,7 +14,7 @@ export const GaleryPage:FC = () => {
 
   return (
     <div className='GaleryPage-container'>
-      <Layout01 login={true} logout={true} centralChildren={buttonCapture}>
+      <Layout01 veryfyLogin={true} centralChildren={buttonCapture}>
         <GaleryImages />
       </Layout01>
     </div>

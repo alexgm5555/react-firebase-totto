@@ -10,7 +10,7 @@ export const LoginPage:FC = () => {
 
   return (
     <div className='LoginPage-container'>
-      <Layout01 login={true} logout={true}>
+      <Layout01 buttonRegister={false}>
         <LoginForm />
       </Layout01>
     </div>

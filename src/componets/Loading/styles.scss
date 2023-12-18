@@ -1,0 +1,11 @@
+.Loading-container {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  z-index: 1000;
+  height: calc(100% - 100px);
+  width: 100%;
+  position: absolute;
+  justify-content: center;
+  background-color: white;
+}

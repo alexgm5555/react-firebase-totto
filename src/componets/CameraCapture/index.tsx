@@ -1,5 +1,6 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { FC, useRef, useState, useInsertionEffect } from 'react';
+import { Button, Form } from 'react-bootstrap';
 import { collection, addDoc } from 'firebase/firestore';
 import {
   getStorage,
@@ -11,11 +12,10 @@ import {v4 as uuid} from 'uuid';
 
 import './styles.scss';
 
-import './styles.scss';
 import { db } from '../../services';
-import { useDispatch, useSelector } from 'react-redux';
 import { ImagesInterface } from '../../interfaces';
 import { setUpdate } from '../../redux/imagesSlice';
+import { setLoading } from '../../redux/loadingSlice';
 
 export const CameraCapture:FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -36,25 +36,42 @@ export const CameraCapture:FC = () => {
       const camaras = dispositivos.filter((dispositivo) => dispositivo.kind === 'videoinput');
       setDispositivos(camaras);
       setDispositivoSeleccionado(camaras[0]?.deviceId || null);
+      
+      if (camaras.length > 0) {
+        // Carga la primera cámara disponible automáticamente
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { deviceId: camaras[0].deviceId },
+        });
+        setStream(stream);
+        setShowCamera(true);
+
+        // Establece el flujo de la cámara como fuente para el elemento video
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      } else {
+        console.warn('No se encontraron cámaras disponibles.');
+      }
     } catch (error) {
       console.error('Error al enumerar dispositivos:', error);
     }
   };
 
   const startCamera = async () => {
+    console.log('startCamera');
+    
     try {
       if (!dispositivoSeleccionado) {
         console.error('No se ha seleccionado ningún dispositivo de cámara.');
         return;
       }
 
-      // Obtén permisos para acceder a la cámara seleccionada
       const newStream = await navigator.mediaDevices.getUserMedia({
         video: {
           deviceId: dispositivoSeleccionado,
         },
       });
-      // const newStream = await navigator.mediaDevices.getUserMedia({ video: true });
+
       setStream(newStream);
       setShowCamera(true);
       if (videoRef.current) {
@@ -66,15 +83,21 @@ export const CameraCapture:FC = () => {
   };
 
   const stopCamera = () => {
+    console.log('cerrado');
+    console.log(stream);
+
     if (stream) {
       const tracks = stream.getTracks();
       tracks.forEach((track) => track.stop());
       setStream(null);
+      
       setShowCamera(false);
     }
   };
 
   const capture = async () => {
+    dispatch(setLoading(true));
+    stopCamera();
     if (videoRef.current) {
       const canvas = document.createElement('canvas');
       canvas.width = videoRef.current.videoWidth;
@@ -114,24 +137,26 @@ export const CameraCapture:FC = () => {
       }
       const docRef = await addDoc( collection(db, "images"), dataToSend );
       setImageSrc(imageUrl);
-      stopCamera();
       dispatch(setUpdate());
       console.log('Imagen subida y URL guardada en Firestores:', imageUrl, docRef.id);
+      dispatch(setLoading(false));
     } catch (error) {
+      dispatch(setLoading(false));
        console.error('Error al subir la imagen:', error);
     }
   };
+
   
-  useEffect(() => {
+  useInsertionEffect(() => {
     cargarDispositivos();
-    startCamera();
+    return ()=>stopCamera();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className='CameraCapture-container'>
       <label htmlFor="seleccionarCamara">Seleccionar Cámara: </label>
-      <select
+      <Form.Select
         id="seleccionarCamara"
         onChange={(e) => setDispositivoSeleccionado(e.target.value)}
         value={dispositivoSeleccionado || ''}
@@ -141,7 +166,7 @@ export const CameraCapture:FC = () => {
             {dispositivo.label || `Cámara ${dispositivo.deviceId}`}
           </option>
         ))}
-      </select>
+      </Form.Select>
       <video className={`camera-${showCamera}`} ref={videoRef} autoPlay muted playsInline />
       {imageSrc && !showCamera && 
         <div className='img-div'>

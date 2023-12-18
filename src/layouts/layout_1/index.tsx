@@ -12,30 +12,28 @@ import { auth } from '../../services/firebase/config';
 import './styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { addUser } from '../../redux/userSlice';
+import { useNavigate } from 'react-router-dom';
+import { Loading } from '../../componets';
 
 interface props {
   children: ReactNode
   centralChildren?: ReactNode
-  login: boolean,
-  logout: boolean,
-  pageRef?: string
+  veryfyLogin?: boolean,
+  buttonRegister?: boolean
 }
 
 export const Layout01:FC<props> = ({
   children,
   centralChildren,
-  login,
-  logout,
-  pageRef
+  veryfyLogin,
+  buttonRegister
 }) => {
   const [showName, setShowName] = useState(false);
-  const data = useSelector((state: any) => state.user);
+  const dataUser = useSelector((state: any) => state.user);
+  const { startLoading } = useSelector((state: any) => state.loading);
+  
+  let navigate = useNavigate();
   const dispatch =  useDispatch();
-
-  useEffect(() => {
-    setShowName(data.name !== '');
-  }, [data]);
-
 
   const handleLogout = async () => {
     try {
@@ -51,6 +49,16 @@ export const Layout01:FC<props> = ({
       console.error('Error al cerrar sesión:', error);
     }
   };
+
+  const verifyUserLoggin = () =>{
+    if (dataUser.name === '' && veryfyLogin) navigate('/');
+    setShowName(dataUser.name !== '');
+  }
+
+  useEffect(() => {
+    verifyUserLoggin();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataUser]);
 
   return (
     <div className='Layout01-container'>
@@ -78,11 +86,11 @@ export const Layout01:FC<props> = ({
           <Form className="d-flex">
             { showName  && <>
               <>
-                <Navbar.Brand href="#">Bienvenido, {data.name}!</Navbar.Brand>
+                <Navbar.Brand href="#">Bienvenido, {dataUser.name}!</Navbar.Brand>
                 <Button variant="outline-success" onClick={handleLogout} href="/">Cerrar Sesión</Button>
               </>
             </>}
-            { !showName  && <>
+            { buttonRegister !== false && !showName  && <>
               <Button variant="outline-success"href="/">Registrar</Button>
             </>}
           </Form>
@@ -90,7 +98,10 @@ export const Layout01:FC<props> = ({
       </Container>
     </Navbar>
     <div className='children-container'>
+      {/* <Loading /> */}
+      {startLoading === true && <Loading />}
       {children}
+      {/* {children}  */}
     </div>
   </div>
   );
