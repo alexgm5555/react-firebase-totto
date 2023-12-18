@@ -97,7 +97,6 @@ export const CameraCapture:FC = () => {
 
   const capture = async () => {
     dispatch(setLoading(true));
-    stopCamera();
     if (videoRef.current) {
       const canvas = document.createElement('canvas');
       canvas.width = videoRef.current.videoWidth;
@@ -137,6 +136,7 @@ export const CameraCapture:FC = () => {
       }
       const docRef = await addDoc( collection(db, "images"), dataToSend );
       setImageSrc(imageUrl);
+      stopCamera();
       dispatch(setUpdate());
       console.log('Imagen subida y URL guardada en Firestores:', imageUrl, docRef.id);
       dispatch(setLoading(false));
@@ -152,6 +152,11 @@ export const CameraCapture:FC = () => {
     return ()=>stopCamera();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // useEffect(() => {
+  //   return ()=>stopCamera();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <div className='CameraCapture-container'>
