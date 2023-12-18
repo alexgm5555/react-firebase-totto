@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { FC, useRef, useState, useInsertionEffect } from 'react';
+import { FC, useRef, useState, useInsertionEffect, useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { collection, addDoc } from 'firebase/firestore';
 import {
@@ -37,21 +37,21 @@ export const CameraCapture:FC = () => {
       setDispositivos(camaras);
       setDispositivoSeleccionado(camaras[0]?.deviceId || null);
       
-      // if (camaras.length > 0) {
-      //   // Carga la primera cámara disponible automáticamente
-      //   const stream = await navigator.mediaDevices.getUserMedia({
-      //     video: { deviceId: camaras[0].deviceId },
-      //   });
-      //   setStream(stream);
-      //   setShowCamera(true);
+      if (camaras.length > 0) {
+        // Carga la primera cámara disponible automáticamente
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { deviceId: camaras[0].deviceId },
+        });
+        setStream(stream);
+        setShowCamera(true);
 
-      //   // Establece el flujo de la cámara como fuente para el elemento video
-      //   if (videoRef.current) {
-      //     videoRef.current.srcObject = stream;
-      //   }
-      // } else {
-      //   console.warn('No se encontraron cámaras disponibles.');
-      // }
+        // Establece el flujo de la cámara como fuente para el elemento video
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      } else {
+        console.warn('No se encontraron cámaras disponibles.');
+      }
     } catch (error) {
       console.error('Error al enumerar dispositivos:', error);
     }
@@ -152,6 +152,12 @@ export const CameraCapture:FC = () => {
     return ()=>stopCamera();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    startCamera();
+    return ()=>stopCamera();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispositivoSeleccionado]);
 
   return (
     <div className='CameraCapture-container'>
