@@ -1,13 +1,13 @@
 # PRUEBA TÉCNICA PARA EL ROL DE DESARROLLADOR FRONTEND  EMPRESA TOTTO
 https://prueb-tecnica-alexander-guiza.netlify.app
 
-Proyecto construido con:
-React
-typescript
-sass
-firebase (escogí esta herramienta dado que cuenta con mas aceptación dentro de la comunidad )
+- Proyecto construido con:
+- React
+- Typescript
+- sass
+- firebase (escogí esta herramienta dado que cuenta con mas aceptación dentro de la comunidad )
 arquitectura spa
-Netlify (Se hizo el despliegue en esta herramienta por que ya la habia utilizado en otras app y me ha parecido facil de manejar y en su version libre la mas rápida.)
+- Netlify (Se hizo el despliegue en esta herramienta por que ya la habia utilizado en otras app y me ha parecido facil de manejar y en su version libre la mas rápida.)
 
 
 ## Instrucciones para instalación en un ambiente local
