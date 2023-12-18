@@ -154,10 +154,11 @@ export const CameraCapture:FC = () => {
   }, []);
 
   useEffect(() => {
+    stopCamera();
     cargarDispositivos();
     startCamera();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispositivoSeleccionado]);
 
   return (
     <div className='CameraCapture-container'>
