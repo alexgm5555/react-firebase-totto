@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { FC, useRef, useState, useInsertionEffect, useEffect } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { collection, addDoc } from 'firebase/firestore';
 import {
   getStorage,
@@ -156,12 +156,12 @@ export const CameraCapture:FC = () => {
   useEffect(() => {
     startCamera();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispositivoSeleccionado]);
 
   return (
     <div className='CameraCapture-container'>
       <label htmlFor="seleccionarCamara">Seleccionar Cámara: </label>
-      <Form.Select
+      <select
         id="seleccionarCamara"
         onChange={(e) => setDispositivoSeleccionado(e.target.value)}
         value={dispositivoSeleccionado || ''}
@@ -171,7 +171,7 @@ export const CameraCapture:FC = () => {
             {dispositivo.label || `Cámara ${dispositivo.deviceId}`}
           </option>
         ))}
-      </Form.Select>
+      </select>
       <video className={`camera-${showCamera}`} ref={videoRef} autoPlay muted playsInline />
       {imageSrc && !showCamera && 
         <div className='img-div'>
